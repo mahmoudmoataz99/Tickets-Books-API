@@ -7,7 +7,7 @@ const cors = require("cors");
 const mongoURI = process.env.MONGO_URI;
 
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoURI)
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -22,7 +22,7 @@ app.use("/categories", require("./routes/Cats"));
 app.use("/bookings", require("./routes/Bookings"));
 
 // Default port or custom port
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

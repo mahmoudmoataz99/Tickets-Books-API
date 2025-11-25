@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
 
 // Ensure unique username and email during registration
 userSchema.pre('save', async function (next) {
+  const User = mongoose.model('User', userSchema);
   const existingUsername = await User.findOne({ username: this.username });
   if (existingUsername) {
     const error = new Error('Username already exists');

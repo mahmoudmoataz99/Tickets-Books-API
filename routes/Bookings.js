@@ -63,6 +63,22 @@ router.post('/create', async (req, res) => {
   }
 });
 
+router.get('/checkBook/:userId/:eventId', async (req, res) => {
+ const { userId, eventId } = req.params;
+
+ try {
+   const existingBooking = await Booking.findOne({ userId, eventId });
+
+   if (existingBooking) {
+     return res.json({ exists: true }); // Indicates booking exists
+   } else {
+     return res.json({ exists: false }); // Indicates no booking
+   }
+ } catch (err) {
+   return res.status(500).json({ message: err.message });
+ }
+});
+
 // Get bookings by user ID
 router.get('/user/:userId', async (req, res) => {
   try {
@@ -73,23 +89,6 @@ router.get('/user/:userId', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-router.get('/checkBook/:userId/:eventId', async (req, res) => {
- const { userId, eventId } = req.params;
-
- try {
-   const existingBooking = await Booking.findOne({ userId, eventId });
-
-   if (existingBooking) {
-     return res.send(true); // Indicates booking exists
-   } else {
-     return res.send(false); // Indicates no booking
-   }
- } catch (err) {
-   return res.status(500).json({ message: err.message });
- }
-});
-
 
 // Get single booking by ID
 router.get('/:id', async (req, res) => {
